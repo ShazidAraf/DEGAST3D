@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DEGAST3D — Learning Deformable 3D Graph Similarity</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    margin: 0;
+    background: #ffffff;
+    color: #222;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 40px 24px;
+}
+
+h1 {
+    font-size: 2.4rem;
+    margin-bottom: 0.2em;
+}
+
+h2 {
+    margin-top: 60px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 8px;
+}
+
+h3 {
+    margin-top: 40px;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #555;
+}
+
+.authors {
+    margin: 12px 0;
+    font-size: 0.95rem;
+}
+
+.links a {
+    margin-right: 16px;
+    text-decoration: none;
+    color: #0066cc;
+    font-weight: 500;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+figure {
+    margin: 40px 0;
+    text-align: center;
+}
+
+figure img {
+    max-width: 100%;
+    border-radius: 6px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+}
+
+figcaption {
+    font-size: 0.9rem;
+    color: #555;
+    margin-top: 10px;
+}
+
+.flex {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.flex figure {
+    flex: 1;
+    margin: 0;
+}
+
+ul {
+    margin-left: 20px;
+}
+
+.highlight {
+    background: #f8f9fa;
+    padding: 16px 20px;
+    border-left: 4px solid #0066cc;
+    margin: 30px 0;
+}
+
+footer {
+    margin-top: 80px;
+    padding-top: 30px;
+    border-top: 1px solid #eee;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+code {
+    background: #f3f3f3;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>DEGAST3D</h1>
+<div class="subtitle">
+Learning Deformable 3D Graph Similarity for Tracking Cells in Unregistered Time-Lapse Microscopy
+</div>
+
+<div class="authors">
+<b>Md Shazid Islam</b>, Arindam Dutta, Calvin-Khang Ta, Kevin Rodriguez, Christian Michael, Mark Alber,  
+G. Venugopala Reddy, Amit K. Roy-Chowdhury
+</div>
+
+<div class="links">
+<a href="https://github.com/ShazidAraf/DEGAST3D">GitHub</a>
+<a href="#">Paper (IEEE TCBB 2025)</a>
+</div>
+
+<h2>Overview</h2>
+<p>
+Tracking densely packed cells in 3D time-lapse microscopy is challenging due to non-rigid growth,
+cell division, imaging noise, and unregistered acquisition. <b>DEGAST3D</b> introduces a learning-based
+framework that models local cellular neighborhoods as <b>deformable 3D graphs</b> and learns graph
+similarity for robust cell correspondence over time.
+</p>
+
+<figure>
+<img src="assets/fig3_pipeline.png" alt="Pipeline overview">
+<figcaption>
+<b>Figure 1.</b> End-to-end pipeline of DEGAST3D: segmentation, 3D registration, deformable graph
+matching, and cell division detection.
+</figcaption>
+</figure>
+
+<h2>Why 2D Tracking Fails</h2>
+
+<figure>
+<img src="assets/fig2_tilt_failure.png" alt="2D tracking failure">
+<figcaption>
+<b>Figure 2.</b> Tissue tilt causes the same cells to appear with different shapes in 2D slices,
+breaking 2D shape- and graph-based tracking methods.
+</figcaption>
+</figure>
+
+<h2>3D Instance Segmentation</h2>
+
+<figure>
+<img src="assets/fig4_segmentation.png" alt="3D segmentation">
+<figcaption>
+<b>Figure 3.</b> 3D instance segmentation using Cellpose3D enables volumetric reasoning and
+shape-aware division detection.
+</figcaption>
+</figure>
+
+<h2>Robust 3D Registration</h2>
+
+<div class="flex">
+<figure>
+<img src="assets/fig5_registration_pipeline.png" alt="Registration pipeline">
+<figcaption>
+<b>Figure 4a.</b> Registration pipeline using seed correspondences and RANSAC.
+</figcaption>
+</figure>
+
+<figure>
+<img src="assets/fig6_registration_overlay.png" alt="Registration overlay">
+<figcaption>
+<b>Figure 4b.</b> Cell borders before and after 3D registration.
+</figcaption>
+</figure>
+</div>
+
+<h2>Learning Deformable 3D Graph Similarity</h2>
+
+<figure>
+<img src="assets/fig7_roi.png" alt="ROI selection">
+<figcaption>
+<b>Figure 5.</b> Compact 3D region-of-interest selection reduces search complexity.
+</figcaption>
+</figure>
+
+<figure>
+<img src="assets/fig8_3d_graph.png" alt="3D graph">
+<figcaption>
+<b>Figure 6.</b> Local 3D k-nearest-neighbor graph captures higher-order spatial structure.
+</figcaption>
+</figure>
+
+<figure>
+<img src="assets/fig9_graph_similarity.png" alt="Graph similarity model">
+<figcaption>
+<b>Figure 7.</b> Neural graph similarity model jointly predicts point-level correspondence and
+overall graph similarity.
+</figcaption>
+</figure>
+
+<h2>Semi-Supervised Learning Signal</h2>
+
+<figure>
+<img src="assets/fig10_point_supervision.png" alt="Point supervision">
+<figcaption>
+<b>Figure 8.</b> Point-to-point supervision derived from partial correspondence labels.
+</figcaption>
+</figure>
+
+<h2>Cell Division Detection</h2>
+
+<div class="flex">
+<figure>
+<img src="assets/fig12_shape_similarity.png" alt="Shape similarity">
+<figcaption>
+<b>Figure 9a.</b> 3D volumetric shape similarity using voxelized representations.
+</figcaption>
+</figure>
+
+<figure>
+<img src="assets/fig14_division_results.png" alt="Division results">
+<figcaption>
+<b>Figure 9b.</b> Detected mother–daughter cell relationships.
+</figcaption>
+</figure>
+</div>
+
+<h2>Results</h2>
+
+<figure>
+<img src="assets/fig13_tracking_results.png" alt="Tracking results">
+<figcaption>
+<b>Figure 10.</b> Qualitative tracking results across time points.
+</figcaption>
+</figure>
+
+<div class="highlight">
+<b>Performance summary:</b><br>
+• +6.4% F1 improvement in cell tracking<br>
+• +14.8% F1 improvement in cell division detection<br>
+• Robust to segmentation noise and long time-lapse sequences
+</div>
+
+<h2>Why This Matters</h2>
+<p>
+DEGAST3D shows how <b>learning on structured 3D representations</b> can replace brittle heuristic
+matching in biological tracking pipelines. The framework generalizes to other densely packed
+cellular systems such as organoids, embryos, and volumetric biomedical imaging.
+</p>
+
+<h2>Resources</h2>
+<ul>
+<li><b>Paper:</b> IEEE Transactions on Computational Biology and Bioinformatics (2025)</li>
+<li><b>Code:</b> <a href="https://github.com/ShazidAraf/DEGAST3D">GitHub Repository</a></li>
+<li><b>Dataset:</b> Arabidopsis Shoot Apical Meristem</li>
+</ul>
+
+<footer>
+© 2025 Md Shazid Islam · University of California, Riverside
+</footer>
+
+</div>
+</body>
+</html>
