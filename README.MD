@@ -98,8 +98,7 @@ python Inference_Tracking_Celldiv.py --main_dir "data" --plant_idx 6 --segmentat
 This project utilizes:
 - **[Cellpose](https://github.com/MouseLand/cellpose)** for deep learning-based cell segmentation.
 - **3D Graph** was constructed based on this reposititory **[Deep Graphical Feature Learning for the Feature Matching Problem](https://github.com/zzhang1987/Deep-Graphical-Feature-Learning)**, ICCV2019
-
-This work was supported in part by the U.S. National Science Foundation
+- **This work was supported in part by the U.S. National Science Foundation
 under grants OAC-2411453, OAC-1664172, DMS-1762063, DMS-2029814, and
 IOS-2055690.
 
